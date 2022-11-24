@@ -11,13 +11,18 @@ interface IValue {
 interface Props {
   value: IValue;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const LabelInput = ({ value, onChange }: Props) => {
+interface ITextInput {
+  error: string;
+}
+
+const LabelInput = ({ value, onChange, onBlur }: Props) => {
   return (
     <Container>
       <Label>{value.label}</Label>
-      <TextInput value={value.input} onChange={onChange} />
+      <TextInput value={value.input} onChange={onChange} onBlur={onBlur} error={value.error} />
       <ErrorText>{value.error}</ErrorText>
     </Container>
   );
@@ -36,10 +41,10 @@ const Label = styled.label`
   color: '#6C6C7D';
 `;
 
-const TextInput = styled.input`
+const TextInput = styled.input<ITextInput>`
   margin-top: 8px;
   padding: 16px;
-  background-color: '#F7F7FA';
+  background-color: ${({ error }) => (error ? '#FDEDEE' : '#F7F7FA')};
   border-radius: 12px;
   border: 1px solid #000;
 `;

@@ -22,6 +22,8 @@ const Button = styled.button`
   border-radius: 12px;
   background-color: #222;
   color: white;
+  :disabled {
+  }
 
   &:disabled {
     background-color: #e2e2ea;

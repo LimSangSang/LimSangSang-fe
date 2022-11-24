@@ -11,13 +11,13 @@ import { useLoginQuery } from '../hooks/use-login-query';
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
-  const [id, onChangeId] = useLoginInput({
+  const [id, onChangeId, onBlurId, disabledId] = useLoginInput({
     type: 'id',
     label: '아이디',
     input: 'asdf',
     error: '',
   });
-  const [password, onChangePassword] = useLoginInput({
+  const [password, onChangePassword, onBlurPassword, disabledPassword] = useLoginInput({
     type: 'password',
     label: '비밀번호',
     input: 'fds',
@@ -43,10 +43,10 @@ const LoginPage: NextPage = () => {
         </Link>
       </Header>
       <Form>
-        <LabelInput value={id} onChange={onChangeId} />
+        <LabelInput value={id} onChange={onChangeId} onBlur={onBlurId} />
         <Space />
-        <LabelInput value={password} onChange={onChangePassword} />
-        <LoginButton onClick={onClickLogin} disabled={false} />
+        <LabelInput value={password} onChange={onChangePassword} onBlur={onBlurPassword} />
+        <LoginButton onClick={onClickLogin} disabled={disabledId || disabledPassword} />
       </Form>
     </>
   );
