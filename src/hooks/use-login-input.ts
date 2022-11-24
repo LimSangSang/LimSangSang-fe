@@ -7,7 +7,7 @@ interface IValue {
   error: string;
 }
 type UserInputProps = [IValue, (e: ChangeEvent<HTMLInputElement>) => void];
-export const useLogin = (initial: IValue): UserInputProps => {
+export const useLoginInput = (initial: IValue): UserInputProps => {
   const [value, setValue] = useState(initial);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

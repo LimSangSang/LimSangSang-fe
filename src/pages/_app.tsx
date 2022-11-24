@@ -1,4 +1,6 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { AppProps } from 'next/app';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import setupMSW from '../api/setup';
@@ -7,14 +9,20 @@ import GlobalStyle from '../styles/GlobalStyle';
 setupMSW();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: { queries: { suspense: true, useErrorBoundary: true } },
+      })
+  );
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <GlobalStyle />
       <Background />
       <Content>
         <Component {...pageProps} />
       </Content>
-    </>
+    </QueryClientProvider>
   );
 }
 

@@ -3,31 +3,32 @@ import type { NextPage } from 'next';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import LabelInput from '../components/LabelInput';
-import { useLogin } from '../hooks/use-login';
+import { useLoginInput } from '../hooks/use-login-input';
 import LoginButton from '../components/LoginButton';
 import { login } from '../api/login';
 import { useRouter } from 'next/router';
+import { useLoginQuery } from '../hooks/use-login-query';
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
-  const [id, onChangeId] = useLogin({
+  const [id, onChangeId] = useLoginInput({
     type: 'id',
     label: '아이디',
     input: 'asdf',
     error: '',
   });
-  const [password, onChangePassword] = useLogin({
+  const [password, onChangePassword] = useLoginInput({
     type: 'password',
     label: '비밀번호',
     input: 'fds',
     error: '',
   });
+  const { mutate } = useLoginQuery(id.input, password.input);
 
   const onClickLogin = async () => {
-    console.log('click');
     const { data } = await login(id.input, password.input);
-    console.log(data);
     if (!data.accessToken) return;
+    mutate();
     router.push('/');
   };
 
