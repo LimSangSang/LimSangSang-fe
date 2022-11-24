@@ -4,6 +4,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import setupMSW from '../api/setup';
+import AsyncBoundary from '../components/api/AsyncBoundary';
 import GlobalStyle from '../styles/GlobalStyle';
 
 setupMSW();
@@ -18,10 +19,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyle />
-      <Background />
-      <Content>
-        <Component {...pageProps} />
-      </Content>
+      <AsyncBoundary>
+        <Background />
+        <Content>
+          <Component {...pageProps} />
+        </Content>
+      </AsyncBoundary>
     </QueryClientProvider>
   );
 }
