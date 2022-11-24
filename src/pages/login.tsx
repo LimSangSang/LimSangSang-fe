@@ -1,9 +1,24 @@
 import Link from 'next/link';
 import type { NextPage } from 'next';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import LabelInput from '../components/LabelInput';
+import { useLogin } from '../hooks/use-login';
 
 const LoginPage: NextPage = () => {
+  const [id, onChangeId] = useLogin({
+    type: 'id',
+    label: '아이디',
+    input: '',
+    error: '',
+  });
+  const [password, onChangePassword] = useLogin({
+    type: 'password',
+    label: '비밀번호',
+    input: '',
+    error: '',
+  });
+
   return (
     <>
       <Header>
@@ -15,10 +30,9 @@ const LoginPage: NextPage = () => {
         </Link>
       </Header>
       <Form>
-        <div>아이디</div>
-        <TextInput type='text' />
-        <div>비밀번호</div>
-        <TextInput type='password' />
+        <LabelInput value={id} onChange={onChangeId} />
+        <Space />
+        <LabelInput value={password} onChange={onChangePassword} />
         <LoginButton disabled>로그인</LoginButton>
       </Form>
     </>
@@ -45,8 +59,8 @@ const Form = styled.div`
   padding: 0 20px 40px;
 `;
 
-const TextInput = styled.input`
-  border: 1px solid #000;
+const Space = styled.div`
+  margin-top: 16px;
 `;
 
 const LoginButton = styled.button`
