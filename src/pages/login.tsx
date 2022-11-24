@@ -4,20 +4,32 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import LabelInput from '../components/LabelInput';
 import { useLogin } from '../hooks/use-login';
+import LoginButton from '../components/LoginButton';
+import { login } from '../api/login';
+import { useRouter } from 'next/router';
 
 const LoginPage: NextPage = () => {
+  const router = useRouter();
   const [id, onChangeId] = useLogin({
     type: 'id',
     label: '아이디',
-    input: '',
+    input: 'asdf',
     error: '',
   });
   const [password, onChangePassword] = useLogin({
     type: 'password',
     label: '비밀번호',
-    input: '',
+    input: 'fds',
     error: '',
   });
+
+  const onClickLogin = async () => {
+    console.log('click');
+    const { data } = await login(id.input, password.input);
+    console.log(data);
+    if (!data.accessToken) return;
+    router.push('/');
+  };
 
   return (
     <>
@@ -33,7 +45,7 @@ const LoginPage: NextPage = () => {
         <LabelInput value={id} onChange={onChangeId} />
         <Space />
         <LabelInput value={password} onChange={onChangePassword} />
-        <LoginButton disabled>로그인</LoginButton>
+        <LoginButton onClick={onClickLogin} disabled={false} />
       </Form>
     </>
   );
@@ -61,16 +73,4 @@ const Form = styled.div`
 
 const Space = styled.div`
   margin-top: 16px;
-`;
-
-const LoginButton = styled.button`
-  margin-top: 40px;
-  padding: 20px;
-  border-radius: 12px;
-  background-color: #222;
-  color: #fff;
-
-  &:disabled {
-    background-color: #e2e2ea;
-  }
 `;
